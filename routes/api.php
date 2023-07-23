@@ -20,14 +20,15 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::post('login',[AuthController::class,'login']);
-Route::post('register',[AuthController::class,'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
 
 
-Route::group(['middleware' => 'auth:sanctum'],function(){
+Route::group(['middleware' => 'auth:sanctum'], function () {
 //    Route::get('user',[UserController::class,'userDetails']);
-    Route::get('logout',[AuthController::class,'logout']);
+    Route::get('logout', [AuthController::class, 'logout']);
 
     Route::resource('subscription', SubscriptionController::class);
-    Route::resource('user-subscription', UserSubscriptionController::class);
+    Route::post('user-subscription', [UserSubscriptionController::class, 'createOrUpdate']);
+    Route::delete('user-subscription/{userSubscriptionId}', [UserSubscriptionController::class, 'destroy']);
 });

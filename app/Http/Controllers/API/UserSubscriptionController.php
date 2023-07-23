@@ -24,25 +24,19 @@ class UserSubscriptionController extends Controller
      * @return JsonResponse
      * @throws Exception
      */
-    public function store(UserSubscriptionRequest $request): JsonResponse
+    public function createOrUpdate(UserSubscriptionRequest $request): JsonResponse
     {
-        $subscription = $this->userSubscriptionService->createSubscription($request->all());
+        $subscription = $this->userSubscriptionService->createOrUpdateSubscription($request->all());
         return $this->callBackResponse("User subscription is saved", new UserSubscriptionResource($subscription), 201);
-    }
-
-    public function update(UserSubscriptionRequest $request, UserSubscription $userSubscription): JsonResponse
-    {
-        $subscription = $this->userSubscriptionService->updateSubscription($userSubscription->id, $request->all());
-        return $this->callBackResponse("User subscription is updated", new UserSubscriptionResource($subscription));
     }
 
     /**
      * @param UserSubscription $userSubscription
      * @return JsonResponse
      */
-    public function destroy(UserSubscription $userSubscription): JsonResponse
+    public function destroy(int $userSubscriptionId): JsonResponse
     {
-        $subscription = $this->userSubscriptionService->deleteSubscription($userSubscription->id);
+        $subscription = $this->userSubscriptionService->deleteSubscription($userSubscriptionId);
         return $this->callBackResponse("User subscription is deleted", new UserSubscriptionResource($subscription));
     }
 }

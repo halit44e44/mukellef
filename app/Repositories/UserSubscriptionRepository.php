@@ -19,17 +19,9 @@ class UserSubscriptionRepository
         return $subscription;
     }
 
-    public function find(int $id)
+    public function findByUserId(int $userId)
     {
-        return UserSubscription::findOrFail($id);
-    }
-
-    public function all(array $data)
-    {
-        $subscription = UserSubscription::orderBy(
-            $data['sort'] ?: 'id',
-            $data['sortType'] ?: 'desc');
-        return $subscription->paginate($data['perPage']);
+        return UserSubscription::whereUserId($userId)->first();
     }
 
     public function delete(int $id)
