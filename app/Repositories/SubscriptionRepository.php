@@ -26,9 +26,9 @@ class SubscriptionRepository
     public function all(array $data)
     {
         $subscription = Subscription::orderBy(
-            $data['sort'] ?: 'id',
-            $data['sortType'] ?: 'desc');
-        return $subscription->paginate($data['perPage']);
+            $data['sort'] ?? 'id',
+            $data['sortType'] ?? 'desc');
+        return $subscription->paginate($data['perPage'] ?? 15);
     }
 
     public function delete(int $id)

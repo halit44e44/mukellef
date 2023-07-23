@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LoginUserRequest extends FormRequest
+class UserSubscriptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,33 +18,20 @@ class LoginUserRequest extends FormRequest
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required',
+            'user_id' => 'required|int|exists:users,id',
+            'subscription_id' => 'required|int|exists:subscriptions,id,deleted_at,NULL'
         ];
     }
 
     public function getValidatorInstance(): Validator
     {
+        $this->payload();
         return parent::getValidatorInstance();
-    }
-
-    /**
-     * @return array
-     */
-    public function messages(): array
-    {
-        return [
-            'email' => [
-                'required' => "Email field is required",
-                'email' => "The e-mail must be entered in the correct format."
-            ],
-            'password' => "Password field is required"
-        ];
     }
 
     protected function failedValidation(Validator $validator)
@@ -51,6 +39,14 @@ class LoginUserRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'status' => 'Bad Request | Failure',
             'errors' => $validator->errors()
-        ], 401));
+        ], 422));
+    }
+
+    private function payload()
+    {
+        $this->merge([
+            'renewed_at' => Carbon::now(),
+            'expired_at' => Carbon::now()->addMonth(),
+        ]);
     }
 }
