@@ -31,7 +31,7 @@ class UserSubscriptionController extends Controller
     }
 
     /**
-     * @param UserSubscription $userSubscription
+     * @param int $userSubscriptionId
      * @return JsonResponse
      */
     public function destroy(int $userSubscriptionId): JsonResponse
