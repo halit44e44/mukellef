@@ -38,6 +38,11 @@ class SubscriptionCheck extends Command
     /**
      * Execute the console command.
      */
+    /*
+     * NOT : Bu alanda kuyruk kullanmak daha sağlıklı olacaktır. Ödeme işlemleri uzun sonuçlar dönderdiği için kuyruğu atılıp
+     * 3 4 defa tekrar tekrar denenmesi daha sağlıklı olacaktır. Failure işlemleride bir nebze olsun önüne geçmiş oluruz.
+     * Ve çok fazla yük binmemiş olur.  
+     */
     public function handle(): bool
     {
         $expiredSubscriptions = $this->userSubscriptionService->findExpiredSubscriptions(6);
