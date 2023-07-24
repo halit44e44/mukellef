@@ -31,4 +31,9 @@ class UserSubscription extends Model
     {
         return $this->hasone(Subscription::class, 'id', 'subscription_id');
     }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

@@ -3,21 +3,44 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
+use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function userDetails(): Response
+    protected UserService $userService;
+
+    public function __construct(UserService $userService)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            return Response(['data' => $user], 200);
-        }
-        return Response(['data' => 'Unauthorized'], 401);
+        $this->userService = $userService;
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function userDetails(Request $request): JsonResponse
+    {
+        $user = $this->userService->listUser($request->all());
+        return response()->json([
+            'message' => 'The user was successfully fetched.',
+            'data' => UserResource::collection($user)
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function userById(int $id): JsonResponse
+    {
+        $user = $this->userService->showUser($id);
+        return response()->json([
+            'message' => 'The user was successfully fetched.',
+            'data' => new UserResource($user)
+        ]);
     }
 }

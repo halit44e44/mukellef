@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\SubscriptionController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UserSubscriptionController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,8 @@ Route::post('register', [AuthController::class, 'register']);
 
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-//    Route::get('user',[UserController::class,'userDetails']);
+    Route::get('user/{userId}',[UserController::class,'userById']);
+    Route::get('user',[UserController::class,'userDetails']);
     Route::get('logout', [AuthController::class, 'logout']);
 
     Route::resource('subscription', SubscriptionController::class);
