@@ -27,6 +27,25 @@ Bu komut gerekli tüm ortamı hazırlayacaktır. Db'i oluşturup migrate edecekt
 - user: root
 - password: root
 
+##  Schedule & Command
+- Manuel olarak elle çalıştırmak isterseniz eğer. Lütfen adım adım aşağıdakileri uygulayın.
+
+1- Projenin olduğu dizine girin.
+```
+- Bu komut çalışan kontainer listeleyecektir.
+# docker ps
+```
+2- Çalışan Kontainerlar içerisinde app olarak listelenen kontainer id'sini kopyalayın. Ve ardından sunucuya girmek için aşağıdaki kodu uygulayın.
+```
+- Bu komut sizi sanal sunucunun içerisine girmenizi sağlayacaktır.
+# docker exec -it <APP_ID> bash
+```
+3- Ardından gerekli schedule komutlarını çalştırabilirsiniz.
+```
+- Subscription kontrol edip gerekli yenileme işlemlerini yapacaktır.
+# php artisan subscription:check
+```
+
 <h2 align="center">
   ÖNEMLİ LÜTFEN OKUYUN
 </h2>
@@ -36,6 +55,7 @@ Bu komut gerekli tüm ortamı hazırlayacaktır. Db'i oluşturup migrate edecekt
 ## Açıklamalar
 - XAMPP vs MAMP gibi web sunucuları kurmaya vakit harcamanızı istemediğim için. Docker Container ile tüm işleri tek satıra düşürdüm.
 - Çok kısa bir kurulum ve anlaşılır bir şekilde yapmaya çalıştım.
+- Umarım Projemi Beğenirsiz 
 
 
 
@@ -46,5 +66,5 @@ bu 3 komutu dizine geldiğinizde çalıştırdığınızda sorun ortadan kalkaca
 ```
 - docker-compose down
 - chmod +x .docker/entrypoint.sh
-- docker-compose up
+- docker-compose up || docker-dompose up -d 
 ```
