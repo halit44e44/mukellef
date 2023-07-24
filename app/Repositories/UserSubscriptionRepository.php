@@ -37,4 +37,19 @@ class UserSubscriptionRepository
             ->where('subscription_id', $subscription_id)
             ->exists();
     }
+
+    public function findExpiredSubscriptions(int $hour)
+    {
+        return UserSubscription::where('expired_at', '<', now()->addHours($hour))->where('expired_at', '>', now())->get();
+    }
+
+    public function updateTime(UserSubscription $userSubscription)
+    {
+        $subscription = UserSubscription::findOrFail($userSubscription->id);
+        $subscription->update([
+            'renewed_at' => now(),
+            'expired_at' => now()->addMonth()
+        ]);
+        return $subscription;
+    }
 }

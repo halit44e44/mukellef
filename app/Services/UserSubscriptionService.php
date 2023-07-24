@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use App\Models\UserSubscription;
 use App\Repositories\TransactionRepository;
 use App\Repositories\UserSubscriptionRepository;
 
@@ -49,4 +50,13 @@ class UserSubscriptionService
         return $this->userSubscriptionRepository->delete($id);
     }
 
+    public function findExpiredSubscriptions(int $hour)
+    {
+        return $this->userSubscriptionRepository->findExpiredSubscriptions($hour);
+    }
+
+    public function updateTimeSubscription(UserSubscription $userSubscription)
+    {
+        return $this->userSubscriptionRepository->updateTime($userSubscription);
+    }
 }
